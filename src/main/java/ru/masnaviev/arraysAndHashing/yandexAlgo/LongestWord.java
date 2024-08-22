@@ -1,24 +1,23 @@
 package ru.masnaviev.arraysAndHashing.yandexAlgo;
+//19 i love segment tree
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class LongestWord {
     public static void main(String[] args) throws IOException {
         // Подготовка чтения и вывода
-        StringBuilder outputBuilder = new StringBuilder();
+        StringBuilder output = new StringBuilder();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
         ////////////////////////////////////////////////////////
 
-        int count = Integer.parseInt(tokenizer.nextToken());
+        int L = Integer.parseInt(reader.readLine().trim());
 
-        char[] arr = new char[count];
-        arr = tokenizer.nextToken().toCharArray();
-        String[] str = Arrays.toString(arr).split(" ");
+        String text = reader.readLine();
+
+        StringTokenizer tokenizer = new StringTokenizer(text, " ");
 
         ////////////////////////////////////////////////////////
         // Измерение времени
@@ -30,6 +29,7 @@ public class LongestWord {
 
         //TODO
 
+        output.append(findLongestWord(tokenizer));
 
         //TODO
 
@@ -45,13 +45,21 @@ public class LongestWord {
         double memoryUsedMB = memoryUsed;
 
         // Вывод результатов
-        outputBuilder.append("");
-        System.out.println("Результат = " + outputBuilder);
+        System.out.println("Результат: \n" + output);
         System.out.printf("Время выполнения: %.6f секунд%n", durationSeconds);
         System.out.printf("Используемая память: %.6f байт%n", memoryUsedMB);
     }
 
-    public static int[] findLongestWord(char[] arr) {
-
+    public static String findLongestWord(StringTokenizer tokenizer) {
+        String longestWord = "";
+        int maxLength = 0;
+        while (tokenizer.hasMoreTokens()) {
+            String word = tokenizer.nextToken();
+            if (word.length() > maxLength) {
+                longestWord = word;
+                maxLength = word.length();
+            }
+        }
+        return longestWord + "\n" + maxLength;
     }
 }
