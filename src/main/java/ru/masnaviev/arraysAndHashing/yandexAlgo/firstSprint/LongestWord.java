@@ -1,19 +1,23 @@
-package ru.masnaviev.arraysAndHashing.yandexAlgo;
+package ru.masnaviev.arraysAndHashing.yandexAlgo.firstSprint;
+//19 i love segment tree
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.util.StringTokenizer;
 
-public class Factorization {
-
+public class LongestWord {
     public static void main(String[] args) throws IOException {
         // Подготовка чтения и вывода
+        StringBuilder output = new StringBuilder();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder outputBuilder = new StringBuilder();
         ////////////////////////////////////////////////////////
 
-        int num = Integer.parseInt(reader.readLine());
+        int L = Integer.parseInt(reader.readLine().trim());
+
+        String text = reader.readLine();
+
+        StringTokenizer tokenizer = new StringTokenizer(text, " ");
 
         ////////////////////////////////////////////////////////
         // Измерение времени
@@ -25,7 +29,7 @@ public class Factorization {
 
         //TODO
 
-        outputBuilder.append(factorization(num));
+        output.append(findLongestWord(tokenizer));
 
         //TODO
 
@@ -41,24 +45,21 @@ public class Factorization {
         double memoryUsedMB = memoryUsed;
 
         // Вывод результатов
-        System.out.println("Результат = " + outputBuilder);
+        System.out.println("Результат: \n" + output);
         System.out.printf("Время выполнения: %.6f секунд%n", durationSeconds);
         System.out.printf("Используемая память: %.6f байт%n", memoryUsedMB);
     }
 
-    public static String factorization(int num) {
-        StringBuilder builder = new StringBuilder();
-        int split = 2;
-        ArrayList<Integer> list = new ArrayList<>();
-        while (num > 1) {
-            if (num % split == 0) {
-                list.add(split);
-                num /= split;
-            } else {
-                ++split;
+    public static String findLongestWord(StringTokenizer tokenizer) {
+        String longestWord = "";
+        int maxLength = 0;
+        while (tokenizer.hasMoreTokens()) {
+            String word = tokenizer.nextToken();
+            if (word.length() > maxLength) {
+                longestWord = word;
+                maxLength = word.length();
             }
         }
-        return builder.append(list).toString();
+        return longestWord + "\n" + maxLength;
     }
-
 }

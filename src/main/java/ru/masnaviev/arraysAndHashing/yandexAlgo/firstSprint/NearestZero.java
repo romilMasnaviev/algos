@@ -1,10 +1,12 @@
-package ru.masnaviev.arraysAndHashing.yandexAlgo;
+package ru.masnaviev.arraysAndHashing.yandexAlgo.firstSprint;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
-public class DegreeOfFour {
+public class NearestZero {
 
     public static void main(String[] args) throws IOException {
         // Подготовка чтения и вывода
@@ -13,6 +15,15 @@ public class DegreeOfFour {
         ////////////////////////////////////////////////////////
 
         int num = Integer.parseInt(reader.readLine());
+
+        String str = reader.readLine();
+
+        int[] arr = new int[num];
+
+        StringTokenizer tokenizer = new StringTokenizer(str);
+        for (int i = 0; i < num; i++) {
+            arr[i] = Integer.parseInt(tokenizer.nextToken());
+        }
 
         ////////////////////////////////////////////////////////
         // Измерение времени
@@ -24,7 +35,7 @@ public class DegreeOfFour {
 
         //TODO
 
-        outputBuilder.append(isDegreeOfFour(num));
+        outputBuilder.append(Arrays.toString(nearestZero(arr)));
 
         //TODO
 
@@ -40,29 +51,43 @@ public class DegreeOfFour {
         double memoryUsedMB = memoryUsed;
 
         // Вывод результатов
-        System.out.println("Результат = " + outputBuilder);
+        System.out.println("Результат :" + outputBuilder);
         System.out.printf("Время выполнения: %.6f секунд%n", durationSeconds);
         System.out.printf("Используемая память: %.6f байт%n", memoryUsedMB);
     }
 
-    public static String isDegreeOfFour(int num) {
-        int i = 0;
-        while (true) {
-            int k = powOfFour(i);
-            if (k == num) {
-                return "True";
-            } else if (k > num) {
-                return "False";
+
+    public static int[] nearestZero(int[] arr) {
+        int[] newArr = new int[arr.length];
+
+        for (int i = 0; i < arr.length; i++) {
+            int k = i;
+            while (k > 0) {
+                if (arr[k] == 0) {
+                    break;
+                }
+                k--;
             }
-            i++;
+            newArr[i] = i - k;
         }
+
+        for (int i = arr.length - 1; i > 0; i--) {
+            int k = i;
+            int flag = 0;
+            while (k < arr.length) {
+                if (arr[k] == 0) {
+                    flag = 1;
+                    break;
+                }
+                k++;
+            }
+            if (newArr[i] > (k - i) && flag == 1) {
+                newArr[i] = k - i;
+            }
+        }
+
+        return newArr;
     }
 
-    public static int powOfFour(int i) {
-        int sum = 1;
-        for (int j = 0; j < i; j++) {
-            sum *= 4;
-        }
-        return sum;
-    }
+
 }

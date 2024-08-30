@@ -1,21 +1,19 @@
-package ru.masnaviev.arraysAndHashing.yandexAlgo;
+package ru.masnaviev.arraysAndHashing.yandexAlgo.firstSprint;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.ArrayList;
 
-public class EvenAndOddNums {
+public class Factorization {
+
     public static void main(String[] args) throws IOException {
         // Подготовка чтения и вывода
-        StringBuilder outputBuilder = new StringBuilder();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
+        StringBuilder outputBuilder = new StringBuilder();
         ////////////////////////////////////////////////////////
 
-        int a = Integer.parseInt(tokenizer.nextToken());
-        int b = Integer.parseInt(tokenizer.nextToken());
-        int c = Integer.parseInt(tokenizer.nextToken());
+        int num = Integer.parseInt(reader.readLine());
 
         ////////////////////////////////////////////////////////
         // Измерение времени
@@ -27,7 +25,7 @@ public class EvenAndOddNums {
 
         //TODO
 
-        String result = play2(a, b, c);
+        outputBuilder.append(factorization(num));
 
         //TODO
 
@@ -43,31 +41,24 @@ public class EvenAndOddNums {
         double memoryUsedMB = memoryUsed;
 
         // Вывод результатов
-        outputBuilder.append(result).append("\n");
         System.out.println("Результат = " + outputBuilder);
         System.out.printf("Время выполнения: %.6f секунд%n", durationSeconds);
         System.out.printf("Используемая память: %.6f байт%n", memoryUsedMB);
     }
 
-
-    //версия 1
-    public static String play(int a, int b, int c) {
-        if (a % 2 == 0) {
-            if (b % 2 == 0) if (c % 2 == 0) return "WIN";
-        } else if (b % 2 != 0) if (c % 2 != 0) return "WIN";
-        return "FAIL";
+    public static String factorization(int num) {
+        StringBuilder builder = new StringBuilder();
+        int split = 2;
+        ArrayList<Integer> list = new ArrayList<>();
+        while (num > 1) {
+            if (num % split == 0) {
+                list.add(split);
+                num /= split;
+            } else {
+                ++split;
+            }
+        }
+        return builder.append(list).toString();
     }
-
-    //версия 2
-    //лучше по читаемости, по производительности они одинаковые
-    public static String play2(int a, int b, int c) {
-        if(isEven(a) == isEven(b) == isEven(c)) return "WIN";
-        return "FAIL";
-    }
-
-    private static boolean isEven(int a) {
-        return a % 2 == 0;
-    }
-
 
 }

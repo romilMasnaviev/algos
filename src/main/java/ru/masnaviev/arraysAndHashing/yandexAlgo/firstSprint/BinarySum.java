@@ -1,26 +1,21 @@
-package ru.masnaviev.arraysAndHashing.yandexAlgo;
+package ru.masnaviev.arraysAndHashing.yandexAlgo.firstSprint;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
-//7 -1 -10 -8 0 2 0 5
-public class WeatherRandom {
+import static java.lang.Math.pow;
+
+public class BinarySum {
 
     public static void main(String[] args) throws IOException {
         // Подготовка чтения и вывода
-        StringBuilder outputBuilder = new StringBuilder();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
+        StringBuilder outputBuilder = new StringBuilder();
         ////////////////////////////////////////////////////////
 
-        int count = Integer.parseInt(tokenizer.nextToken());
-
-        int[] arr = new int[count];
-        for (int i = 0; i < count; i++) {
-            arr[i] = Integer.parseInt(tokenizer.nextToken());
-        }
+        char[] first = reader.readLine().toCharArray();
+        char[] second = reader.readLine().toCharArray();
 
         ////////////////////////////////////////////////////////
         // Измерение времени
@@ -32,7 +27,7 @@ public class WeatherRandom {
 
         //TODO
 
-        int sum = daySum(arr, arr.length);
+        outputBuilder.append(binarySum(first,second));
 
         //TODO
 
@@ -48,27 +43,43 @@ public class WeatherRandom {
         double memoryUsedMB = memoryUsed;
 
         // Вывод результатов
-        outputBuilder.append(sum);
         System.out.println("Результат = " + outputBuilder);
         System.out.printf("Время выполнения: %.6f секунд%n", durationSeconds);
         System.out.printf("Используемая память: %.6f байт%n", memoryUsedMB);
     }
 
-    public static int daySum(int[] arr, int length) {
-        if (length == 1) {
-            return 1;
-        }
+
+    public static int fromBinary(int[] arr) {
         int sum = 0;
-
-        int curr;
-        for (int i = 1; i < length - 1; i++) {
-            curr = arr[i];
-            if (curr > arr[i - 1] && curr > arr[i + 1]) sum++;
+        for (int i = 0; i < arr.length; i++) {
+            sum += (int) (arr[i] * pow(2, arr.length - 1 - i));
         }
-
-        if (arr[0] > arr[1]) sum++;
-        if (arr[length - 1] > arr[length - 2]) sum++;
-
         return sum;
     }
+
+    public static String binarySum(char[] first, char[] second) {
+        int[] firstIntArr = new int[first.length];
+        int[] secondIntArr = new int[second.length];
+
+        for (int i = 0; i < first.length; i++) {
+            firstIntArr[i] = first[i] - '0';
+        }
+
+        for (int i = 0; i < second.length; i++) {
+            secondIntArr[i] = second[i] - '0';
+        }
+
+        int firstInt = fromBinary(firstIntArr);
+        int secondInt = fromBinary(secondIntArr);
+
+        return recursBinary(firstInt + secondInt);
+    }
+
+    public static String recursBinary(int rest) {
+        if (rest <= 0) {
+            return "";
+        }
+        return recursBinary(rest / 2) + (rest % 2);
+    }
+
 }

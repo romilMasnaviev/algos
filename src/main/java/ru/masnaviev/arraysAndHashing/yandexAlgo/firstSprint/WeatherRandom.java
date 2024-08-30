@@ -1,22 +1,26 @@
-package ru.masnaviev.arraysAndHashing.yandexAlgo;
+package ru.masnaviev.arraysAndHashing.yandexAlgo.firstSprint;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.StringTokenizer;
 
-public class AnExtraLetter {
+//7 -1 -10 -8 0 2 0 5
+public class WeatherRandom {
 
     public static void main(String[] args) throws IOException {
         // Подготовка чтения и вывода
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder outputBuilder = new StringBuilder();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
         ////////////////////////////////////////////////////////
 
-        String s = reader.readLine();
-        String t = reader.readLine();
+        int count = Integer.parseInt(tokenizer.nextToken());
+
+        int[] arr = new int[count];
+        for (int i = 0; i < count; i++) {
+            arr[i] = Integer.parseInt(tokenizer.nextToken());
+        }
 
         ////////////////////////////////////////////////////////
         // Измерение времени
@@ -28,7 +32,7 @@ public class AnExtraLetter {
 
         //TODO
 
-        outputBuilder.append(extraLetter(s, t));
+        int sum = daySum(arr, arr.length);
 
         //TODO
 
@@ -44,27 +48,27 @@ public class AnExtraLetter {
         double memoryUsedMB = memoryUsed;
 
         // Вывод результатов
-        System.out.println("Результат :" + outputBuilder);
+        outputBuilder.append(sum);
+        System.out.println("Результат = " + outputBuilder);
         System.out.printf("Время выполнения: %.6f секунд%n", durationSeconds);
         System.out.printf("Используемая память: %.6f байт%n", memoryUsedMB);
     }
 
-    public static char extraLetter(String s, String t) {
-        int size = t.length();
+    public static int daySum(int[] arr, int length) {
+        if (length == 1) {
+            return 1;
+        }
+        int sum = 0;
 
-        char[] sArr = s.toCharArray();
-        char[] tArr = t.toCharArray();
-        Map<Character, Integer> map = new HashMap<>(size);
-
-        for (char c : sArr) {
-            map.put( c, map.getOrDefault(c, 0) + 1);
+        int curr;
+        for (int i = 1; i < length - 1; i++) {
+            curr = arr[i];
+            if (curr > arr[i - 1] && curr > arr[i + 1]) sum++;
         }
 
+        if (arr[0] > arr[1]) sum++;
+        if (arr[length - 1] > arr[length - 2]) sum++;
 
-        for (char c : tArr) {
-            map.put( c, map.getOrDefault(c, 0) - 1);
-        }
-
-        return map.entrySet().stream().filter(entry -> entry.getValue() == -1).collect(Collectors.toList()).get(0).getKey();
+        return sum;
     }
 }

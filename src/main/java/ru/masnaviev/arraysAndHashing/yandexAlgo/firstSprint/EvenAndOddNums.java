@@ -1,31 +1,21 @@
-package ru.masnaviev.arraysAndHashing.yandexAlgo;
+package ru.masnaviev.arraysAndHashing.yandexAlgo.firstSprint;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class ListFOrm {
-
+public class EvenAndOddNums {
     public static void main(String[] args) throws IOException {
         // Подготовка чтения и вывода
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder outputBuilder = new StringBuilder();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
         ////////////////////////////////////////////////////////
 
-        int size = Integer.parseInt(reader.readLine());
-
-        int[] arr = new int[size];
-
-        String secondLine = reader.readLine();
-        StringTokenizer tokenizer = new StringTokenizer(secondLine);
-        int i = 0;
-        while (tokenizer.hasMoreTokens()) {
-            arr[i] = Integer.parseInt(tokenizer.nextToken());
-            i++;
-        }
-
-        int k = Integer.parseInt(reader.readLine());
+        int a = Integer.parseInt(tokenizer.nextToken());
+        int b = Integer.parseInt(tokenizer.nextToken());
+        int c = Integer.parseInt(tokenizer.nextToken());
 
         ////////////////////////////////////////////////////////
         // Измерение времени
@@ -37,7 +27,7 @@ public class ListFOrm {
 
         //TODO
 
-        outputBuilder.append(listForm(arr, k));
+        String result = play2(a, b, c);
 
         //TODO
 
@@ -53,27 +43,30 @@ public class ListFOrm {
         double memoryUsedMB = memoryUsed;
 
         // Вывод результатов
-        System.out.println("Результат :" + outputBuilder);
+        outputBuilder.append(result).append("\n");
+        System.out.println("Результат = " + outputBuilder);
         System.out.printf("Время выполнения: %.6f секунд%n", durationSeconds);
         System.out.printf("Используемая память: %.6f байт%n", memoryUsedMB);
     }
 
-    public static String listForm(int[] arr, int k) {
-        int sum = 0;
-        int mult = 1;
-        for (int i = arr.length - 1; i >= 0; i--) {
-            sum += arr[i] * mult;
-            mult *= 10;
-        }
-        sum += k;
 
-        StringBuilder sb = new StringBuilder();
-        while (sum > 10) {
-            sb.append(sum % 10).append(" ");
-            sum /= 10;
-        }
-        sb.append(sum);
-        return sb.reverse().toString();
+    //версия 1
+    public static String play(int a, int b, int c) {
+        if (a % 2 == 0) {
+            if (b % 2 == 0) if (c % 2 == 0) return "WIN";
+        } else if (b % 2 != 0) if (c % 2 != 0) return "WIN";
+        return "FAIL";
+    }
+
+    //версия 2
+    //лучше по читаемости, по производительности они одинаковые
+    public static String play2(int a, int b, int c) {
+        if(isEven(a) == isEven(b) == isEven(c)) return "WIN";
+        return "FAIL";
+    }
+
+    private static boolean isEven(int a) {
+        return a % 2 == 0;
     }
 
 

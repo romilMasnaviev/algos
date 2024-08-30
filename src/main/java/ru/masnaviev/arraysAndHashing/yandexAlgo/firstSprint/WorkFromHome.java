@@ -1,23 +1,20 @@
-package ru.masnaviev.arraysAndHashing.yandexAlgo;
-//19 i love segment tree
+package ru.masnaviev.arraysAndHashing.yandexAlgo.firstSprint;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class LongestWord {
+public class WorkFromHome {
+
     public static void main(String[] args) throws IOException {
         // Подготовка чтения и вывода
-        StringBuilder output = new StringBuilder();
+        StringBuilder outputBuilder = new StringBuilder();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
         ////////////////////////////////////////////////////////
 
-        int L = Integer.parseInt(reader.readLine().trim());
-
-        String text = reader.readLine();
-
-        StringTokenizer tokenizer = new StringTokenizer(text, " ");
+        int count = Integer.parseInt(tokenizer.nextToken());
 
         ////////////////////////////////////////////////////////
         // Измерение времени
@@ -29,8 +26,7 @@ public class LongestWord {
 
         //TODO
 
-        output.append(findLongestWord(tokenizer));
-
+        String str = recursBinary(count);
         //TODO
 
         // Измерение памяти после выполнения кода
@@ -45,21 +41,18 @@ public class LongestWord {
         double memoryUsedMB = memoryUsed;
 
         // Вывод результатов
-        System.out.println("Результат: \n" + output);
+        outputBuilder.append(str);
+        System.out.println("Результат = " + outputBuilder);
         System.out.printf("Время выполнения: %.6f секунд%n", durationSeconds);
         System.out.printf("Используемая память: %.6f байт%n", memoryUsedMB);
     }
 
-    public static String findLongestWord(StringTokenizer tokenizer) {
-        String longestWord = "";
-        int maxLength = 0;
-        while (tokenizer.hasMoreTokens()) {
-            String word = tokenizer.nextToken();
-            if (word.length() > maxLength) {
-                longestWord = word;
-                maxLength = word.length();
-            }
+
+    public static String recursBinary(int rest) {
+        if (rest <= 0) {
+            return "";
         }
-        return longestWord + "\n" + maxLength;
+        return recursBinary(rest / 2) + (rest % 2);
     }
+
 }

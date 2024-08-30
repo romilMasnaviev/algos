@@ -1,23 +1,18 @@
-package ru.masnaviev.arraysAndHashing.yandexAlgo;
+package ru.masnaviev.arraysAndHashing.yandexAlgo.firstSprint;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+//A man, a plan, a canal: Panama
+public class Palindrome {
 
-public class FunctionValues {
     public static void main(String[] args) throws IOException {
         // Подготовка чтения и вывода
-        StringBuilder outputBuilder = new StringBuilder();
+        StringBuilder output = new StringBuilder();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
         ////////////////////////////////////////////////////////
 
-        int a = Integer.parseInt(tokenizer.nextToken());
-        int x = Integer.parseInt(tokenizer.nextToken());
-        int b = Integer.parseInt(tokenizer.nextToken());
-        int c = Integer.parseInt(tokenizer.nextToken());
-
+        String text = reader.readLine();
         ////////////////////////////////////////////////////////
         // Измерение времени
         long startTime = System.nanoTime();
@@ -28,7 +23,7 @@ public class FunctionValues {
 
         //TODO
 
-        int result = calc(a, x, b, c);
+        output.append(isPalindrome(text));
 
         //TODO
 
@@ -44,16 +39,20 @@ public class FunctionValues {
         double memoryUsedMB = memoryUsed;
 
         // Вывод результатов
-        outputBuilder.append(result).append("\n");
-        System.out.println("Результат = " + outputBuilder);
+        System.out.println("Результат = \n" + output);
         System.out.printf("Время выполнения: %.6f секунд%n", durationSeconds);
         System.out.printf("Используемая память: %.6f байт%n", memoryUsedMB);
     }
 
-
-    //значение функции
-    public static int calc(int a, int x, int b, int c) {
-        return a * x * x + b * x + c;
+    public static String isPalindrome(String text) {
+        String textWithout = text.replaceAll("(?U)[\\pP\\s]","");
+        char[] str = textWithout.toLowerCase().toCharArray();
+        int length = str.length;
+        for (int i = 0; i < text.length() / 2; i++) {
+            if (str[i] != str[length - 1 - i]) {
+                return "False";
+            }
+        }
+        return "True";
     }
-
 }

@@ -1,18 +1,32 @@
-package ru.masnaviev.arraysAndHashing.yandexAlgo;
+package ru.masnaviev.arraysAndHashing.yandexAlgo.firstSprint;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-//A man, a plan, a canal: Panama
-public class Palindrome {
+import java.util.StringTokenizer;
+
+public class ListFOrm {
 
     public static void main(String[] args) throws IOException {
         // Подготовка чтения и вывода
-        StringBuilder output = new StringBuilder();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder outputBuilder = new StringBuilder();
         ////////////////////////////////////////////////////////
 
-        String text = reader.readLine();
+        int size = Integer.parseInt(reader.readLine());
+
+        int[] arr = new int[size];
+
+        String secondLine = reader.readLine();
+        StringTokenizer tokenizer = new StringTokenizer(secondLine);
+        int i = 0;
+        while (tokenizer.hasMoreTokens()) {
+            arr[i] = Integer.parseInt(tokenizer.nextToken());
+            i++;
+        }
+
+        int k = Integer.parseInt(reader.readLine());
+
         ////////////////////////////////////////////////////////
         // Измерение времени
         long startTime = System.nanoTime();
@@ -23,7 +37,7 @@ public class Palindrome {
 
         //TODO
 
-        output.append(isPalindrome(text));
+        outputBuilder.append(listForm(arr, k));
 
         //TODO
 
@@ -39,20 +53,28 @@ public class Palindrome {
         double memoryUsedMB = memoryUsed;
 
         // Вывод результатов
-        System.out.println("Результат = \n" + output);
+        System.out.println("Результат :" + outputBuilder);
         System.out.printf("Время выполнения: %.6f секунд%n", durationSeconds);
         System.out.printf("Используемая память: %.6f байт%n", memoryUsedMB);
     }
 
-    public static String isPalindrome(String text) {
-        String textWithout = text.replaceAll("(?U)[\\pP\\s]","");
-        char[] str = textWithout.toLowerCase().toCharArray();
-        int length = str.length;
-        for (int i = 0; i < text.length() / 2; i++) {
-            if (str[i] != str[length - 1 - i]) {
-                return "False";
-            }
+    public static String listForm(int[] arr, int k) {
+        int sum = 0;
+        int mult = 1;
+        for (int i = arr.length - 1; i >= 0; i--) {
+            sum += arr[i] * mult;
+            mult *= 10;
         }
-        return "True";
+        sum += k;
+
+        StringBuilder sb = new StringBuilder();
+        while (sum > 10) {
+            sb.append(sum % 10).append(" ");
+            sum /= 10;
+        }
+        sb.append(sum);
+        return sb.reverse().toString();
     }
+
+
 }

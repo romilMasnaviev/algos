@@ -1,20 +1,22 @@
-package ru.masnaviev.arraysAndHashing.yandexAlgo;
+package ru.masnaviev.arraysAndHashing.yandexAlgo.firstSprint;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-public class WorkFromHome {
+public class AnExtraLetter {
 
     public static void main(String[] args) throws IOException {
         // Подготовка чтения и вывода
-        StringBuilder outputBuilder = new StringBuilder();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
+        StringBuilder outputBuilder = new StringBuilder();
         ////////////////////////////////////////////////////////
 
-        int count = Integer.parseInt(tokenizer.nextToken());
+        String s = reader.readLine();
+        String t = reader.readLine();
 
         ////////////////////////////////////////////////////////
         // Измерение времени
@@ -26,7 +28,8 @@ public class WorkFromHome {
 
         //TODO
 
-        String str = recursBinary(count);
+        outputBuilder.append(extraLetter(s, t));
+
         //TODO
 
         // Измерение памяти после выполнения кода
@@ -41,18 +44,27 @@ public class WorkFromHome {
         double memoryUsedMB = memoryUsed;
 
         // Вывод результатов
-        outputBuilder.append(str);
-        System.out.println("Результат = " + outputBuilder);
+        System.out.println("Результат :" + outputBuilder);
         System.out.printf("Время выполнения: %.6f секунд%n", durationSeconds);
         System.out.printf("Используемая память: %.6f байт%n", memoryUsedMB);
     }
 
+    public static char extraLetter(String s, String t) {
+        int size = t.length();
 
-    public static String recursBinary(int rest) {
-        if (rest <= 0) {
-            return "";
+        char[] sArr = s.toCharArray();
+        char[] tArr = t.toCharArray();
+        Map<Character, Integer> map = new HashMap<>(size);
+
+        for (char c : sArr) {
+            map.put( c, map.getOrDefault(c, 0) + 1);
         }
-        return recursBinary(rest / 2) + (rest % 2);
-    }
 
+
+        for (char c : tArr) {
+            map.put( c, map.getOrDefault(c, 0) - 1);
+        }
+
+        return map.entrySet().stream().filter(entry -> entry.getValue() == -1).collect(Collectors.toList()).get(0).getKey();
+    }
 }
