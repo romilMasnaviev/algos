@@ -6,7 +6,8 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class Histogram {
+public class recurseFib {
+
     public static void main(String[] args) throws IOException {
         // Подготовка чтения и вывода
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -15,15 +16,7 @@ public class Histogram {
 
         int num = Integer.parseInt(reader.readLine());
 
-        int[] arr = new int[num];
-        String line = reader.readLine();
-        StringTokenizer tokenizer = new StringTokenizer(line);
 
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = Integer.parseInt(tokenizer.nextToken());
-        }
-
-        System.out.println(Arrays.toString(arr));
         ////////////////////////////////////////////////////////
         // Измерение времени
         long startTime = System.nanoTime();
@@ -34,7 +27,7 @@ public class Histogram {
 
         //TODO
 
-        outputBuilder.append((" "));
+        outputBuilder.append((recurse(num)));
 
         //TODO
 
@@ -55,6 +48,14 @@ public class Histogram {
         System.out.printf("Используемая память: %.6f байт%n", memoryUsedMB);
     }
 
+    public static int recurse(int a){
+        if(a < 2){
+            return 1;
+        }
+        a--;
+        return recurse(a) + recurse(--a);
+    }
+    // 1 2 3 5 8 13
 
 
 }
