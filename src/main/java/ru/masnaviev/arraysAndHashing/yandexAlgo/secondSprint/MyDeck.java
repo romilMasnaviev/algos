@@ -50,6 +50,10 @@ public class MyDeck {
         if (size == currentSize) {
             System.out.println("error");
             return null;
+        }
+        if (head == null) {
+            head = node;
+            tail = node;
         } else {
             head.setPrev(node);
             node.setNext(head);

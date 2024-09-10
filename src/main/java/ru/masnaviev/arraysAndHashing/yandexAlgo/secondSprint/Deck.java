@@ -32,26 +32,37 @@ public class Deck {
         MyNode node = new MyNode(0);
         MyNode node1 = new MyNode(1);
         MyNode node2 = new MyNode(2);
-        deck.pushBack(node);
-        deck.pushBack(node1);
-        deck.pushBack(node2);
+
+//        deck.pushBack(node);
+//        deck.pushBack(node1);
+//        deck.pushBack(node2);
 
         MyNode node3 = new MyNode(3);
         MyNode node4 = new MyNode(4);
         MyNode node5 = new MyNode(5);
-        deck.pushFront(node3);
-        deck.pushFront(node4);
-        deck.pushFront(node5);
+//        deck.pushFront(node3);
+//        deck.pushFront(node4);
+//        deck.pushFront(node5);
+//
+//        System.out.println(deck);
+//
+//        deck.popBack();
+//        deck.popBack();
+//        deck.popBack();
+//
+//        deck.popFront();
+//        deck.popFront();
+//        deck.popFront();
 
-        System.out.println(deck);
+        deck.pushFront(node);
+        deck.pushFront(node1);
+        System.out.println(deck.popBack());
+        System.out.println(deck.popBack());
 
-        deck.popBack();
-        deck.popBack();
-        deck.popBack();
+        deck.pushBack(node3);
+        System.out.println(deck.popBack());
 
-        deck.popFront();
-        deck.popFront();
-        deck.popFront();
+        deck.pushBack(node4);
 
         System.out.println(deck);
 
