@@ -1,13 +1,11 @@
-package ru.masnaviev.arraysAndHashing.yandexAlgo.secondSprint;
+package ru.masnaviev.arraysAndHashing.yandexAlgo.thirdSprint;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashSet;
-import java.util.Stack;
 import java.util.StringTokenizer;
 
-public class Calculator {
+public class BinarySearch {
 
     public static void main(String[] args) throws IOException {
         // Подготовка чтения и вывода
@@ -29,8 +27,12 @@ public class Calculator {
 
         //TODO
 
-        calculate(line);
+        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        int x = 3;
+        int left = 0;
+        int right = 10;
 
+        System.out.println(binary(arr,x,left,right));
         //TODO
 
         // Измерение памяти после выполнения кода
@@ -50,43 +52,19 @@ public class Calculator {
         System.out.printf("Используемая память: %.6f байт%n", memoryUsedMB);
     }
 
-    public static int calculate(String str) {
-        StringTokenizer st = new StringTokenizer(str);
-        Stack<Integer> numbers = new Stack<>();
-        Stack<Character> signs = new Stack<>();
-        HashSet<String> baseSigns = new HashSet<>();
-        baseSigns.add("+");
-        baseSigns.add("-");
-        baseSigns.add("*");
-        baseSigns.add("/");
-        while (st.hasMoreTokens()) {
-            String token = st.nextToken();
-            if (baseSigns.contains(token)) {
-                int num1 = numbers.pop();
-                int num2 = numbers.pop();
-                numbers.push(execute(token, num2, num1));
-            } else {
-                numbers.push(Integer.parseInt(token));
-            }
-            System.out.println("signs = " + signs);
-            System.out.println("numbers = " + numbers);
+    public static int binary(int[] arr, int x, int left, int right) {
+        int center = (left + right) / 2;
+        if (left == right) {
+            return -1;
         }
-
-        return 0;
-
-
-    }
-
-    private static int execute(String str, int first, int second) {
-        switch (str) {
-            case ("+"):
-                return first + second;
-            case ("-"):
-                return first - second;
-            case ("/"):
-                return first / second;
-            default:
-                return first * second;
+        if (arr[center] > x) {
+            return binary(arr, x, left, center);
+        } else if (arr[center] < x) {
+            return binary(arr, x, center+1, right);
+        } else {
+            return center;
         }
     }
+
+
 }
