@@ -3,12 +3,10 @@ package ru.masnaviev.arraysAndHashing.yandexAlgo.thirdSprint;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
-public class Combinations {
-
-    public static HashMap<Integer, List<Character>> lettersOnKeyMap = new HashMap<>();
-
+public class LargestNumber {
 
     public static void main(String[] args) throws IOException {
         // Подготовка чтения и вывода
@@ -16,15 +14,19 @@ public class Combinations {
         String outputBuilder = "";
         ////////////////////////////////////////////////////////
 
+        int n = Integer.parseInt(reader.readLine());
+
+        String[] arr = new String[n];
+
         String str = reader.readLine();
-
-        char[] charArr = str.toCharArray();
-        int[] arr = new int[charArr.length];
-
-        for (int i = 0; i < charArr.length; i++) {
-            arr[i] = Integer.parseInt(String.valueOf(charArr[i]));
+        StringTokenizer tokenizer = new StringTokenizer(str);
+        int i = 0;
+        while (tokenizer.hasMoreTokens()) {
+            arr[i] = tokenizer.nextToken();
+            i++;
         }
-        System.out.println(arr.length);
+
+        bubbleSort(arr);
 
         ////////////////////////////////////////////////////////
         // Измерение времени
@@ -36,19 +38,6 @@ public class Combinations {
 
         //TODO
 
-        lettersOnKeyMap.put(2, List.of('a', 'b', 'c'));
-        lettersOnKeyMap.put(3, List.of('d', 'e', 'f'));
-        lettersOnKeyMap.put(4, List.of('g', 'h', 'i'));
-        lettersOnKeyMap.put(5, List.of('j', 'k', 'l'));
-        lettersOnKeyMap.put(6, List.of('m', 'n', 'o'));
-        lettersOnKeyMap.put(7, List.of('p', 'q', 'r', 's'));
-        lettersOnKeyMap.put(8, List.of('t', 'u', 'v'));
-        lettersOnKeyMap.put(9, List.of('w', 'x', 'y', 'z'));
-
-        List<String> result = new ArrayList<>();
-        combinationsCalculate(arr, "", 0, result);
-
-        System.out.println(result);
 
         //TODO
 
@@ -67,18 +56,38 @@ public class Combinations {
         System.out.println("Результат :" + outputBuilder);
         System.out.printf("Время выполнения: %.6f секунд%n", durationSeconds);
         System.out.printf("Используемая память: %.6f байт%n", memoryUsedMB);
-
-
     }
 
 
-    public static void combinationsCalculate(int[] arr, String word, int currentIndex, List<String> result) {
-        if (currentIndex == arr.length) {
-            result.add(word);
-        } else {
-            for (int i = 0; i < lettersOnKeyMap.get(arr[currentIndex]).size(); i++) {
-                combinationsCalculate(arr, word + lettersOnKeyMap.get(arr[currentIndex]).get(i), currentIndex + 1, result);
+    public static boolean isBetterNumber(String num1, String num2) {
+        String firstNum = num1 + num2;
+        String secondNum = num2 + num1;
+
+
+        return firstNum.compareTo(secondNum) < 0;
+    }
+
+    public static void bubbleSort(String[] arr) {
+        boolean swapped;
+        for (int i = 0; i < arr.length; i++) {
+            swapped = false;
+            for (int j = 0; j < arr.length - i - 1; j++) {
+                if (isBetterNumber(arr[j], arr[j + 1])) {
+                    String tmp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = tmp;
+                    swapped = true;
+                }
             }
+            if (!swapped) break;
         }
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < arr.length; i++) {
+            sb.append(arr[i]);
+        }
+        System.out.println(sb);
     }
+
 }
