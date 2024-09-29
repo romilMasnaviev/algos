@@ -3,13 +3,9 @@ package ru.masnaviev.arraysAndHashing.yandexAlgo.thirdSprint;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.List;
 import java.util.StringTokenizer;
 
-import static java.lang.Math.max;
-
-public class Flowerbeds {
+public class Subsequence {
 
     public static void main(String[] args) throws IOException {
         // Подготовка чтения и вывода
@@ -17,19 +13,8 @@ public class Flowerbeds {
         String stringBuilder = "";
         ////////////////////////////////////////////////////////
 
-        int n = Integer.parseInt(reader.readLine());
-
-        int[][] arr = new int[n][2];
-
-        StringTokenizer tokenizer;
-        for (int i = 0; i < n; i++) {
-            tokenizer = new StringTokenizer(reader.readLine());
-            for (int j = 0; j < 2; j++) {
-                arr[i][j] = Integer.parseInt(tokenizer.nextToken());
-            }
-        }
-
-        sortFlowerbeds(arr);
+        String subLine = reader.readLine();
+        String line = reader.readLine();
 
         ////////////////////////////////////////////////////////
         // Измерение времени
@@ -41,7 +26,8 @@ public class Flowerbeds {
 
         //TODO
 
-        calculateFlowerbeds(sortFlowerbeds(arr));
+        System.out.println(isSubsequence(subLine, line));
+
         //TODO
 
         // Измерение памяти после выполнения кода
@@ -62,39 +48,27 @@ public class Flowerbeds {
     }
 
 
-    // [0] - начало отрезка
-    // [1] - конец отрезка
-    //TODO ПЕРЕДЕЛАТЬ И УСКОРИТЬ
-    public static void calculateFlowerbeds(int[][] arr) {
-        for (int i = 0; i < arr.length - 1; i++) {
-            if (arr[i][1] >= arr[i + 1][0]) {
-                arr[i + 1][0] = arr[i][0];
-                arr[i + 1][1] = max(arr[i][1], arr[i + 1][1]);
-                arr[i] = null;
-            }
+    public static String isSubsequence(String subLine, String line) {
+        char[] subLineArr = subLine.toCharArray();
+        char[] lineArr = line.toCharArray();
+
+        if (subLineArr.length > lineArr.length || lineArr.length == 0) {
+            return "False";
         }
-
-    }
-
-    //TODO ПЕРЕДЕЛАТЬ И УСКОРИТЬ
-    public static int[][] sortFlowerbeds(int[][] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length - 1 - i; j++) {
-                if (arr[j][0] > arr[j + 1][0]) {
-                    int[] tmp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = tmp;
-                } else if (arr[j][0] == arr[j + 1][0]) {
-                    if (arr[j][1] > arr[j + 1][1]) {
-                        int[] tmp = arr[j];
-                        arr[j] = arr[j + 1];
-                        arr[j + 1] = tmp;
+        for (int i = 0; i < lineArr.length; i++) {
+            if (lineArr[i] == subLineArr[0]) {
+                int subLineIndex = 1;
+                for (int j = i + 1; j < lineArr.length && subLineIndex != subLineArr.length; j++) {
+                    if (lineArr[j] == subLineArr[subLineIndex]) {
+                        subLineIndex++;
                     }
+                }
+                if (subLineIndex == subLineArr.length) {
+                    return "True";
                 }
             }
         }
-        return arr;
+        return "False";
     }
-
 
 }

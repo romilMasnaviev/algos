@@ -4,12 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.List;
-import java.util.StringTokenizer;
 
-import static java.lang.Math.max;
-
-public class Flowerbeds {
+public class MergeSort {
 
     public static void main(String[] args) throws IOException {
         // Подготовка чтения и вывода
@@ -17,19 +13,14 @@ public class Flowerbeds {
         String stringBuilder = "";
         ////////////////////////////////////////////////////////
 
+
         int n = Integer.parseInt(reader.readLine());
 
-        int[][] arr = new int[n][2];
-
-        StringTokenizer tokenizer;
+        int[] arr = new int[n];
         for (int i = 0; i < n; i++) {
-            tokenizer = new StringTokenizer(reader.readLine());
-            for (int j = 0; j < 2; j++) {
-                arr[i][j] = Integer.parseInt(tokenizer.nextToken());
-            }
+            arr[i] = Integer.parseInt(reader.readLine());
         }
 
-        sortFlowerbeds(arr);
 
         ////////////////////////////////////////////////////////
         // Измерение времени
@@ -41,7 +32,10 @@ public class Flowerbeds {
 
         //TODO
 
-        calculateFlowerbeds(sortFlowerbeds(arr));
+        merge_sort(arr, 0, arr.length);
+
+        System.out.println(Arrays.toString(arr));
+
         //TODO
 
         // Измерение памяти после выполнения кода
@@ -62,38 +56,38 @@ public class Flowerbeds {
     }
 
 
-    // [0] - начало отрезка
-    // [1] - конец отрезка
-    //TODO ПЕРЕДЕЛАТЬ И УСКОРИТЬ
-    public static void calculateFlowerbeds(int[][] arr) {
-        for (int i = 0; i < arr.length - 1; i++) {
-            if (arr[i][1] >= arr[i + 1][0]) {
-                arr[i + 1][0] = arr[i][0];
-                arr[i + 1][1] = max(arr[i][1], arr[i + 1][1]);
-                arr[i] = null;
-            }
+    public static int[] merge(int[] arr, int left, int mid, int right) {
+
+        int[] first = new int[mid - left];
+        int[] second = new int[right - mid];
+
+        if (mid - left >= 0) System.arraycopy(arr, 0, first, 0, mid - left);
+        if (right - mid >= 0) System.arraycopy(arr, mid, second, 0, right - mid);
+
+        int firstIndex = 0;
+        int secondIndex = 0;
+        int resultIndex = 0;
+
+        while (firstIndex < first.length && secondIndex < second.length) {
+            arr[resultIndex++] = first[firstIndex] < second[secondIndex] ? first[firstIndex++] : second[secondIndex++];
+        }
+        while (resultIndex < first.length + second.length) {
+            arr[resultIndex++] = firstIndex != first.length ? first[firstIndex++] : second[secondIndex++];
         }
 
+        return arr;
     }
 
-    //TODO ПЕРЕДЕЛАТЬ И УСКОРИТЬ
-    public static int[][] sortFlowerbeds(int[][] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length - 1 - i; j++) {
-                if (arr[j][0] > arr[j + 1][0]) {
-                    int[] tmp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = tmp;
-                } else if (arr[j][0] == arr[j + 1][0]) {
-                    if (arr[j][1] > arr[j + 1][1]) {
-                        int[] tmp = arr[j];
-                        arr[j] = arr[j + 1];
-                        arr[j + 1] = tmp;
-                    }
-                }
+    public static void merge_sort(int[] arr, int left, int right) {
+        if (right - left > 1) {
+            int mid = (left + right) / 2;
+            if ((left + right) % 2 != 0) {
+                mid++;
             }
+            merge_sort(arr, 0, mid);
+            merge_sort(arr, mid, right);
+            merge(arr, 0, mid, right);
         }
-        return arr;
     }
 
 
