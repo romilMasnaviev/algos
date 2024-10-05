@@ -4,21 +4,22 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.StringTokenizer;
 
-public class MergeSort {
+public class Wardrobe {
 
     public static void main(String[] args) throws IOException {
-        // Подготовка чтения и вывода
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String stringBuilder = "";
-        ////////////////////////////////////////////////////////
 
-
+        StringBuilder sb = new StringBuilder();
         int n = Integer.parseInt(reader.readLine());
 
+        StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
+
         int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            arr[i] = Integer.parseInt(reader.readLine());
+        int i = 0;
+        while (tokenizer.hasMoreElements()) {
+            arr[i++] = Integer.parseInt(tokenizer.nextToken());
         }
 
 
@@ -32,10 +33,7 @@ public class MergeSort {
 
         //TODO
 
-        merge_sort(arr, 0, arr.length);
-
-        System.out.println(Arrays.toString(arr));
-
+        sb.append(Arrays.toString(calc_wardrobe(arr)));
         //TODO
 
         // Измерение памяти после выполнения кода
@@ -50,42 +48,26 @@ public class MergeSort {
         double memoryUsedMB = memoryUsed;
 
         // Вывод результатов
-        System.out.println("Результат :" + stringBuilder);
+        System.out.println("Результат :" + sb);
         System.out.printf("Время выполнения: %.6f секунд%n", durationSeconds);
         System.out.printf("Используемая память: %.6f байт%n", memoryUsedMB);
+
+
     }
 
-
-    public static int[] merge(int[] arr, int left, int mid, int right) {
-
-        int[] first = new int[mid - left];
-        int[] second = new int[right - mid];
-
-        if (mid - left >= 0) System.arraycopy(arr, 0, first, 0, mid - left);
-        if (right - mid >= 0) System.arraycopy(arr, mid, second, 0, right - mid);
-
-        int firstIndex = 0;
-        int secondIndex = 0;
-        int resultIndex = 0;
-
-        while (firstIndex < first.length && secondIndex < second.length) {
-            arr[resultIndex++] = first[firstIndex] < second[secondIndex] ? first[firstIndex++] : second[secondIndex++];
-        }
-        while (resultIndex < first.length + second.length) {
-            arr[resultIndex++] = firstIndex != first.length ? first[firstIndex++] : second[secondIndex++];
+    public static int[] calc_wardrobe(int[] arr) {
+        int[] colour_arr = new int[3];
+        int[] result = new int[arr.length];
+        for (int j : arr) {
+            colour_arr[j]++;
         }
 
-        return arr;
+        int k = 0;
+        for (int j = 0; j < colour_arr.length; j++) {
+            for (int i = 0; i < colour_arr[j]; i++) {
+                result[k++] = j;
+            }
+        }
+        return result;
     }
-
-    public static void merge_sort(int[] arr, int left, int right) {
-        if (right - left > 1) {
-            int mid = (left + right) / 2;
-            merge_sort(arr, 0, mid);
-            merge_sort(arr, mid, right);
-            merge(arr, 0, mid, right);
-        }
-    }
-
-
 }
